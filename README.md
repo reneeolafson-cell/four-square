@@ -49,10 +49,14 @@ Read [the founder's vision](docs/founders-vision.md) and [the product blueprint]
 
 ## Publish a GitHub Pages preview
 
-The `main` branch contains source. The `gh-pages` branch contains only the built site. The `Publish web preview` workflow rebuilds and updates that branch after source changes to `main`; it can also be run manually from GitHub Actions. Relative asset paths let the same build run at the repository's Pages subpath.
+The `main` branch contains source. The `Publish web preview` workflow builds and deploys it with the official GitHub Pages artifact/deployment actions. Relative asset paths let the build run at the repository's Pages subpath. An initial built-site snapshot is also available on `gh-pages`; the workflow deploys fresh artifacts rather than using that branch.
 
-For the first publication, open the repository's **Settings → Pages**. Under **Build and deployment**, choose **Deploy from a branch**, select **gh-pages** and **/ (root)**, and save. GitHub then builds and publishes the static site. Once GitHub reports success, the expected URL is `https://reneeolafson-cell.github.io/four-square/`. This URL is a target until GitHub has successfully enabled and published Pages.
+For the first publication:
 
-This is a public app preview. Plans remain in each visitor's own browser; deploying the app does not upload local plans. The new hosted origin starts with sample cards, not plans saved on the development origin. Export/import a backup to transfer a plan.
+1. Open the repository's **Settings → Pages**. Under **Build and deployment**, set **Source** to **GitHub Actions**.
+2. Open **Actions → Publish web preview → Run workflow** and run it on `main`. A workflow started before Pages was enabled may need to be rerun.
+3. Wait for the job to succeed. Its deployment link is the confirmed live address. The expected URL is `https://reneeolafson-cell.github.io/four-square/`; it is only a target until GitHub successfully publishes Pages.
 
-The initial publish workflow may need a rerun if it started before the `gh-pages` branch existed. Future source pushes update the branch without rewriting its history. The workflow needs repository Actions to be enabled and its requested contents-write permission to be permitted by repository policy.
+Subsequent pushes to `main` rebuild and deploy automatically. Repository policy must allow Actions and Pages, including the requested Pages-write and identity-token permissions. No hosting credential is stored in the project; GitHub provides the job's short-lived token.
+
+This is a public app preview. Plans remain in each visitor's own browser; deploying the app does not upload local plans. The hosted origin starts with sample cards, not plans saved on the development origin. Export/import a backup to transfer a plan.

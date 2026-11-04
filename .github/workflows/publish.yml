@@ -6,7 +6,9 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
 
 concurrency:
   group: publish-pages
@@ -15,40 +17,29 @@ concurrency:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Check out source
         uses: actions/checkout@v4
-        with:
-          path: source
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
           node-version: '24'
           cache: npm
-          cache-dependency-path: source/package-lock.json
       - name: Install, check, and build
-        working-directory: source
         run: |
           npm ci
           npm run lint
           npm test
           npm run build
-      - name: Check out published files
-        uses: actions/checkout@v4
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+      - name: Upload web build
+        uses: actions/upload-pages-artifact@v3
         with:
-          ref: gh-pages
-          path: published
-      - name: Update published files
-        run: |
-          git -C published rm -r --ignore-unmatch .
-          cp -R source/dist/. published/
-          touch published/.nojekyll
-          git -C published add -A
-          if git -C published diff --cached --quiet; then
-            echo 'The published build is already up to date.'
-            exit 0
-          fi
-          git -C published config user.name 'github-actions[bot]'
-          git -C published config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git -C published commit -m 'Publish Four Square web preview'
-          git -C published push origin gh-pages
+          path: dist
+      - name: Deploy web preview
+        id: deployment
+        uses: actions/deploy-pages@v4
