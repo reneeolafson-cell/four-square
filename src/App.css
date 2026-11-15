@@ -2569,3 +2569,103 @@ h1 {
     background-image: none;
   }
 }
+
+/* Keep the shared page chrome compact so planning stays in view. */
+.topbar {
+  height: 52px;
+  padding-inline: 24px;
+}
+main {
+  max-width: none;
+  padding: 20px 24px;
+}
+.page-heading {
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.page-heading h1 {
+  font-size: 26px;
+  margin-bottom: 0;
+}
+.planning-overview {
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: #fffefa;
+  margin-bottom: 16px;
+}
+.planning-overview > summary {
+  cursor: pointer;
+  padding: 10px 14px;
+  font-size: 12px;
+  color: #496a50;
+  font-weight: 600;
+}
+.planning-overview > summary span {
+  margin-left: 10px;
+  font-size: 11px;
+  font-weight: 400;
+  color: #69785f;
+}
+.planning-overview > summary:focus-visible {
+  outline: 2px solid #496a50;
+  outline-offset: 3px;
+}
+.planning-overview .sample-banner {
+  margin: 0 12px 12px;
+  padding: 9px 12px;
+}
+.planning-overview .summary-grid {
+  margin: 0 12px 12px;
+}
+.planning-overview .summary-grid > div {
+  padding: 12px;
+}
+.workspace-toolbar {
+  margin-bottom: 18px;
+  padding-bottom: 12px;
+}
+@media (min-width: 951px) {
+  .sidebar {
+    width: 204px;
+    padding: 24px 12px;
+  }
+  .brand {
+    gap: 8px;
+    padding-inline: 4px;
+    margin-bottom: 24px;
+  }
+  .brand > span:last-child {
+    font-size: 23px;
+  }
+  .brand small {
+    letter-spacing: 1.5px;
+  }
+  .workspace-label {
+    padding: 10px 8px;
+    font-size: 11px;
+  }
+}
+@media (max-width: 700px) {
+  .sidebar {
+    padding: 10px 12px;
+  }
+  .brand {
+    margin-bottom: 8px;
+  }
+  .topbar {
+    padding-inline: 14px;
+  }
+  main {
+    padding: 16px 14px;
+  }
+  .page-heading {
+    gap: 10px;
+  }
+  .page-heading h1 {
+    font-size: 25px;
+  }
+  .planning-overview > summary span {
+    display: none;
+  }
+}

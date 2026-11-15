@@ -451,9 +451,6 @@ function App() {
         <main>
           <div className="page-heading">
             <div>
-              <p className="eyebrow">
-                A LITTLE STRUCTURE. A LOT OF POSSIBILITY.
-              </p>
               <h1>
                 {view === 'tabletop'
                   ? 'Your curriculum, connected.'
@@ -463,75 +460,72 @@ function App() {
                       ? 'See the bigger picture.'
                       : 'Ready for the moments that matter.'}
               </h1>
-              <p>
-                {view === 'tabletop'
-                  ? 'Spread out your ideas. Find the connections. Make a plan that feels like yours.'
-                  : view === 'week'
-                    ? 'Bring your planning cards into the week. Move them when life happens.'
-                    : view === 'term'
-                      ? 'Let your calendar make the time visible. You decide how to use it.'
-                      : 'Just the plan, the materials, and the learning in front of you.'}
-              </p>
             </div>
             <button className="primary new-card" onClick={() => newLesson()}>
               ＋ New planning card
             </button>
           </div>
-          <div className="sample-banner">
-            <span className="sample-icon" aria-hidden="true">
-              ✦
-            </span>
-            <p>
-              <strong>A starting point, not a prescribed plan.</strong> Grade
-              3–inspired sample cards · illustrative outcomes, not verified
-              Alberta curriculum.
-            </p>
-            <button className="text-button" onClick={() => setHelpOpen(true)}>
-              Make it yours ↗
-            </button>
-          </div>
-          <section className="summary-grid" aria-label="Planning summary">
-            <div>
-              <span className="stat-icon sage">▦</span>
-              <div>
-                <strong>{plan.outcomes.length}</strong>
-                <span>curriculum outcomes</span>
-              </div>
-              <small>{plan.units.length} connected units</small>
+          <details className="planning-overview">
+            <summary>
+              Planning overview <span>Summary & sample information</span>
+            </summary>
+            <div className="sample-banner">
+              <span className="sample-icon" aria-hidden="true">
+                ✦
+              </span>
+              <p>
+                <strong>A starting point, not a prescribed plan.</strong> Grade
+                3–inspired sample cards · illustrative outcomes, not verified
+                Alberta curriculum.
+              </p>
+              <button className="text-button" onClick={() => setHelpOpen(true)}>
+                Make it yours ↗
+              </button>
             </div>
-            <div>
-              <span className="stat-icon lavender">▧</span>
+            <section className="summary-grid" aria-label="Planning summary">
               <div>
-                <strong>{plan.lessons.length}</strong>
-                <span>planning cards</span>
+                <span className="stat-icon sage">▦</span>
+                <div>
+                  <strong>{plan.outcomes.length}</strong>
+                  <span>curriculum outcomes</span>
+                </div>
+                <small>{plan.units.length} connected units</small>
               </div>
-              <small>
-                {plan.lessons.filter((l) => !l.date).length} waiting for a date
-              </small>
-            </div>
-            <div>
-              <span className="stat-icon peach">◷</span>
               <div>
-                <strong>{totalCapacity}</strong>
-                <span>available term periods</span>
+                <span className="stat-icon lavender">▧</span>
+                <div>
+                  <strong>{plan.lessons.length}</strong>
+                  <span>planning cards</span>
+                </div>
+                <small>
+                  {plan.lessons.filter((l) => !l.date).length} waiting for a
+                  date
+                </small>
               </div>
-              <small>
-                {termUsed} scheduled ·{' '}
-                {subject === 'All subjects' ? 'all subjects' : subject}
-              </small>
-            </div>
-            <div>
-              <span className="stat-icon blue">✓</span>
               <div>
-                <strong>
-                  {covered}
-                  <em>/{plan.outcomes.length}</em>
-                </strong>
-                <span>outcomes with a plan</span>
+                <span className="stat-icon peach">◷</span>
+                <div>
+                  <strong>{totalCapacity}</strong>
+                  <span>available term periods</span>
+                </div>
+                <small>
+                  {termUsed} scheduled ·{' '}
+                  {subject === 'All subjects' ? 'all subjects' : subject}
+                </small>
               </div>
-              <small>Connections, not completion</small>
-            </div>
-          </section>
+              <div>
+                <span className="stat-icon blue">✓</span>
+                <div>
+                  <strong>
+                    {covered}
+                    <em>/{plan.outcomes.length}</em>
+                  </strong>
+                  <span>outcomes with a plan</span>
+                </div>
+                <small>Connections, not completion</small>
+              </div>
+            </section>
+          </details>
           {invalidDates.length > 0 && (
             <div className="notice">
               <strong>
