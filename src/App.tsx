@@ -27,6 +27,7 @@ import {
   Modal,
 } from './components'
 import './App.css'
+import { GoogleLogin } from './GoogleLogin'
 
 type View = 'tabletop' | 'week' | 'term' | 'teach'
 const subjectClass = (subject: Subject) =>
@@ -372,9 +373,7 @@ function App() {
             >
               ↑ Import
             </button>
-            <span className="teacher-avatar" aria-label="Your workspace">
-              FS
-            </span>
+            <GoogleLogin />
           </div>
         </header>
         <input
@@ -1332,16 +1331,16 @@ function App() {
             <h3>Your files stay yours</h3>
             <p>
               Links point to files where you already keep them. Page and slide
-              notes are saved with the card. There is no Google sign-in, file
-              extraction, link-access checking, AI, or print-pack generation in
-              this prototype.
+              notes are saved with the card. Google sign-in identifies your
+              profile only; there is no file extraction, link-access checking,
+              AI, or print-pack generation in this prototype.
             </p>
             <h3>Your plan stays in this browser</h3>
             <p>
-              There is no account, server database, or cross-device sync. Export
-              backups regularly. Import replaces the current plan after
-              confirmation. Avoid entering student information. Browser storage
-              can be cleared by browser settings.
+              Signing in does not upload plans. There is no server database or
+              cross-device sync. Export backups regularly. Import replaces the
+              current plan after confirmation. Avoid entering student
+              information. Browser storage can be cleared by browser settings.
             </p>
             <button className="primary" onClick={() => setHelpOpen(false)}>
               Back to my tabletop

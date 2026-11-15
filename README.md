@@ -2,7 +2,7 @@
 
 A visual curriculum planner by Alberta Aligned. This working, local-first prototype connects **curriculum, time, resources, and assessment** without making teachers enter the same plan twice.
 
-Built with React 19, TypeScript, and Vite. No API keys, account, database server, or Google account connection is needed.
+Built with React 19, TypeScript, and Vite. No account is required to plan. Optional Google sign-in shows your Google profile; plans remain in this browser.
 
 ## Run locally
 
@@ -38,11 +38,11 @@ The model suite exercises capacity, relationships, backups, dates, and safe reso
 ## Data and prototype boundaries
 
 - Plans are saved in this browser's `localStorage` under `four-square.plan.v1`. Sample data is displayed until the first change; edits then persist automatically. Storage failure is shown explicitly. Unreadable existing data is preserved until the teacher explicitly chooses recovery.
-- Browser storage is specific to an origin and browser profile. There is no account, server persistence, cross-device sync, or collaboration. Back up regularly; clearing browser data removes local plans. Do not store student information.
+- Browser storage is specific to an origin and browser profile. Google sign-in does not add server persistence, cross-device sync, or collaboration. Back up regularly; clearing browser data removes local plans. Do not store student information.
 - The starting units, outcomes, lessons, dates, and timetable are **illustrative Grade 3-inspired examples, not verified Alberta curriculum or an official district calendar**. Replace them with verified wording and actual school dates.
 - The prototype has three subjects: Science, Mathematics, and Language Arts. It models one term at a time, five-day weeks, and a common period length. Recurring multiweek timetables, other subjects, monthly views, and multiple classes are future work.
 - Resource attachments store a URL, title, kind, and selection note. Google file IDs can be recognized from URLs. Files are never fetched, moved, renamed, or edited. Existing permissions still apply; unavailable-file detection is not implemented. Page and slide notes do not extract pages or automatically navigate into a file.
-- There is no Google OAuth/Picker integration, PDF Print Pack, slideshow generation, AI processing, publisher integration, or automatic pacing. These are explicitly deferred, not simulated.
+- There is no Google Drive/Picker integration, PDF Print Pack, slideshow generation, AI processing, publisher integration, or automatic pacing. These are explicitly deferred, not simulated.
 - The current app has been built and tested here. No public deployment or fresh-environment restoration is implied.
 
 Read [the founder's vision](docs/founders-vision.md) and [the product blueprint](docs/product-blueprint.md) for the reasoning and next phases.
@@ -60,3 +60,14 @@ For the first publication:
 Subsequent pushes to `main` rebuild and deploy automatically. Repository policy must allow Actions and Pages, including the requested Pages-write and identity-token permissions. No hosting credential is stored in the project; GitHub provides the job's short-lived token.
 
 This is a public app preview. Plans remain in each visitor's own browser; deploying the app does not upload local plans. The hosted origin starts with sample cards, not plans saved on the development origin. Export/import a backup to transfer a plan.
+
+## Enable Google login
+
+1. In Google Cloud Console, configure the Google Auth Platform consent screen and create an OAuth client with application type **Web application**. Configure the audience and test users as needed.
+2. Add the app's exact origins to **Authorized JavaScript origins**, for example `http://localhost:5173` and `https://reneeolafson-cell.github.io`. Origins have no path; do not add `/four-square/`. This popup flow does not need a redirect URI.
+3. Copy `.env.example` to `.env.local`, set `VITE_GOOGLE_CLIENT_ID` to the web client ID, and restart Vite. Never add a client secret to the browser app.
+4. For GitHub Pages, set the repository Actions **variable** `VITE_GOOGLE_CLIENT_ID` and rerun the publishing workflow. Vite embeds this public ID at build time.
+
+The Google Identity Services popup requests only `openid email profile`. The app retrieves your profile from Google's authenticated userinfo endpoint. Access tokens are used transiently and are never saved to browser storage. The displayed session ends on sign-out, reload, or expiry. Signing out clears the app's profile without signing you out of Google or deleting local plans. This is optional browser profile sign-in, not server-side authorization: no backend or protected account data exists yet. A future server must validate identity independently before serving private data.
+
+Without a configured client ID, the sign-in button explains the setup requirement. Real Google sign-in requires a valid client ID and authorized origin; automated tests use a mocked Google response.

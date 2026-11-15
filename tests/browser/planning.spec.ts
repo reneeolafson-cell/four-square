@@ -150,7 +150,7 @@ test('invalid backups and unreadable storage do not destroy the current plan', a
     localStorage.setItem('four-square.plan.v1', '{broken'),
   )
   await page.reload()
-  await expect(page.getByRole('alert')).toContainText(
+  await expect(page.locator('.recovery-banner')).toContainText(
     'has not been overwritten',
   )
   await page.getByRole('button', { name: 'New planning card' }).click()
